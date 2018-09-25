@@ -37,12 +37,25 @@ function queryGoogleAPI(request, response) {
   const searchFor = request.body.search[0];
   const searchBy = request.body.search[1];
 
-  console.log(searchFor, searchBy);
-
   searchBy === 'title' ? url += `+intitle:${searchFor}` : url += `inauthor:${searchFor}`;
 
   superagent.get(url)
-    .then(googleResults => googleResults.body.items.map(book => new Book(book.volumeInfo)));
-    
+    .then(googleResults => googleResults.body.items.map(book => new Book(book)))
+    .then(bookListOnServer => response.render('pages/search-results', {bookListVarialbeNameOnEJS: bookListOnServer}))
 }
 
+function Book(book) {
+  const placeholderImage = 'http://www.newyorkpaddy.com/images/covers/NoCoverAvailable.jpg';
+  this.title = book.volumeInfo.title || 'Title not available';
+  this.author = book.volumeInfo.authors || 'Author not available';
+  this.isbn = book.volumeInfo.industryIdentifiers[0].type || 'ISBN not available';
+  this.image_url = book.volumeInfo.imageLinks.thumbnail || placeholderImage;
+  this.description = book.volumeInfo.description || 'No description';
+  this.category = book.volumeInfo.categories[0] || 'No category';
+
+  // Book.bookList.push(this);
+}
+
+// Book.bookList = [];
+
+// console.log(Book.bookList);
