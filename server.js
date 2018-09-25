@@ -47,7 +47,7 @@ function queryGoogleAPI(request, response) {
 function Book(book) {
   const placeholderImage = 'http://www.newyorkpaddy.com/images/covers/NoCoverAvailable.jpg';
   this.title = book.volumeInfo.title || 'Title not available';
-  this.author = book.volumeInfo.authors || 'Author not available';
+  this.author = book.volumeInfo.authors.reduce((accumulator, currentValue) => accumulator + `, ${currentValue}`) || 'Author not available';
   this.isbn = book.volumeInfo.industryIdentifiers[0].type || 'ISBN not available';
   this.image_url = book.volumeInfo.imageLinks.thumbnail || placeholderImage;
   this.description = book.volumeInfo.description || 'No description';
@@ -55,7 +55,6 @@ function Book(book) {
 
   // Book.bookList.push(this);
 }
-
 // Book.bookList = [];
 
 // console.log(Book.bookList);
