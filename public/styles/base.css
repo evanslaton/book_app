@@ -1,3 +1,16 @@
-h1 {
-  font-size: 3em;
+/* Mobile View Render */
+@media screen and (min-width: 480px) {
+
+}
+
+    
+/* Tablet View Render */
+    
+@media only screen and (min-width: 768px) and (max-width: 960px) {
+    
+}
+    
+/* Desktop View Render */
+@media only screen and (min-width: 961px) {
+    
 }
