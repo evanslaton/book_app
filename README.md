@@ -14,6 +14,7 @@ Architecture TBD
 
 ## Change Log
 9-25-2018 9:15am - Repo created and scaffolding set up.
+9-25-2018 1:50pm - Mostly finished with lab 11, still need to add some CSS styles.
 
 ## Credits and Collaborations
 Coded by Dave Muench and Evan Slaton with support from Allie Grampa, Sam Hamm, Jennifer Piper and Koko Kassa
