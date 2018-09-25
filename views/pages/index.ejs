@@ -13,22 +13,24 @@
 </head>
 
 <body>
-  <h1>Search by Title or Author</h1>
-  
-  <form action="/search-for-books" method="post">
-    <input type="text" name="search" placeholder="Enter a Title or Auther" required="required" />
-    <fieldset>
-      <label>
-        <span>Title</span>
-        <input type="radio" name="search" value="title" required="required" />
-      </label>
-      <label>
-        <span>Author</span>
-        <input type="radio" name="search" value="author" required="required" />
-      </label>
-    </fieldset>
-    <button type="submit">Search Google Books</button>
-  </form>
+  <main id="search-page">
+    <h1>Search by Title or Author</h1>
+
+    <form action="/search-for-books" method="post">
+      <input type="text" name="search" placeholder="Enter a Title or Author" required="required" />
+      <fieldset>
+        <label>
+          <input type="radio" name="search" value="title" required="required" />
+          <span>Title</span>
+        </label>
+        <label>
+          <input type="radio" name="search" value="author" required="required" />
+          <span>Author</span>
+        </label>
+      </fieldset>
+      <button type="submit">Search Google Books</button>
+    </form>
+  </main>
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
