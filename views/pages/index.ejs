@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Book App with David and Evan</title>
   <meta charset="UTF-8">
@@ -10,13 +11,27 @@
   <link href="styles/modules.css" type="text/css" rel="stylesheet" />
   <link href="styles/icons.css" type="text/css" rel="stylesheet" />
 </head>
+
 <body>
-  <h1>Proof of life</h1>
-<script>
-  console.log(__dirname);
-</script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+  <h1>Search by Title or Author</h1>
+  
+  <form action="/search-for-books" method="post">
+    <input type="text" name="search" placeholder="Enter a Title or Auther" required="required" />
+    <fieldset>
+      <label>
+        <span>Title</span>
+        <input type="radio" name="search" value="title" required="required" />
+      </label>
+      <label>
+        <span>Author</span>
+        <input type="radio" name="search" value="author" required="required" />
+      </label>
+    </fieldset>
+    <button type="submit">Search Google Books</button>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
 </body>
+
 </html>

@@ -18,6 +18,8 @@ app.set('view engine', 'ejs');
 
 app.get('/', bookSearch);
 
+app.post('/search-for-books', queryGoogleAPI);
+
 // Error handling
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
@@ -28,3 +30,19 @@ app.listen(PORT, () => console.log(`Listening on port: ${process.env.PORT}`));
 function bookSearch(request, response) {
   response.render('pages/index');
 }
+
+// Sends user's query to Google API for search results
+function queryGoogleAPI(request, response) {
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+  const searchFor = request.body.search[0];
+  const searchBy = request.body.search[1];
+
+  console.log(searchFor, searchBy);
+
+  searchBy === 'title' ? url += `+intitle:${searchFor}` : url += `inauthor:${searchFor}`;
+
+  superagent.get(url)
+    .then(googleResults => googleResults.body.items.map(book => new Book(book.volumeInfo)));
+    
+}
+
