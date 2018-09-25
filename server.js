@@ -46,7 +46,7 @@ function queryGoogleAPI(request, response) {
 }
 
 function Book(book) {
-  const placeholderImage = 'http://www.newyorkpaddy.com/images/covers/NoCoverAvailable.jpg';
+  const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
   this.title = book.volumeInfo.title || 'Title not available';
   this.author = book.volumeInfo.authors.reduce((accumulator, currentValue) => accumulator + `, ${currentValue}`) || 'Author not available';
   this.isbn = book.volumeInfo.industryIdentifiers[0].type || 'ISBN not available';
