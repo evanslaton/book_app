@@ -42,6 +42,7 @@ function queryGoogleAPI(request, response) {
   superagent.get(url)
     .then(googleResults => googleResults.body.items.map(book => new Book(book)))
     .then(bookListOnServer => response.render('pages/search-results', {bookListVarialbeNameOnEJS: bookListOnServer}))
+    .catch(error => handleError(error, response));
 }
 
 function Book(book) {
@@ -52,9 +53,11 @@ function Book(book) {
   this.image_url = book.volumeInfo.imageLinks.thumbnail || placeholderImage;
   this.description = book.volumeInfo.description || 'No description';
   this.category = book.volumeInfo.categories[0] || 'No category';
-
-  // Book.bookList.push(this);
 }
-// Book.bookList = [];
 
-// console.log(Book.bookList);
+const handleError = (error, response) => {
+  console.log(error);
+  if (response) return response.status(500).send('Sorry, something has gone horribly wrong.');
+}
+
+
