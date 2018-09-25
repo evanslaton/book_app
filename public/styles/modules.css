@@ -1,12 +1,30 @@
 /* Mobile View Render */
-@media screen and (min-width: 480px) {
 
+main#search-page input[type="text"] {
+    font-size: 1.5em;
+    border-radius: 5px;
+    border: none;
+    text-indent: .5em;
+}
+
+main#search-page label {
+    font-size: 1.5em;
+}
+
+main#search-page span {
+    margin-left: .5em;  
+}
+
+main#search-page button {
+    font-size: 1.5em;
+    background: purple;
+    color: wheat;
 }
 
     
 /* Tablet View Render */
     
-@media only screen and (min-width: 768px) and (max-width: 960px) {
+@media only screen and (min-width: 481px) and (max-width: 960px) {
     
 }
     

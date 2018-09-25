@@ -1,12 +1,32 @@
 /* Mobile View Render */
-@media screen and (min-width: 480px) {
+
+main#search-page h1 {
+    margin-top: 25px;
+}
+
+main#search-page input[type="text"] {
+    width: 80%;
+    display: block;
+    margin: 25px auto 0;
+}
+
+main#search-page label {
+    width: 80%;
+    display: block;
+    margin: 25px auto 0;
+}
+
+main#search-page button {
+    width: 80%;
+    display: block;
+    margin: 25px auto;
 
 }
 
     
 /* Tablet View Render */
     
-@media only screen and (min-width: 768px) and (max-width: 960px) {
+@media only screen and (min-width: 481px) and (max-width: 960px) {
     
 }
     
