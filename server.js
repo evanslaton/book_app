@@ -40,10 +40,14 @@ function showSavedBooks(request, response) {
   const SQL = `SELECT * FROM books`;
 
   return client.query(SQL)
-    .then(savedBooksFromDatabase => response.render('pages/index', {savedBooksFromDatabase: savedBooksFromDatabase.rows}))
+    .then(savedBooksFromDatabase => {
+      response.render('pages/index', {
+        savedBooksFromDatabase: savedBooksFromDatabase.rows,
+        numberOfBooksSaved: savedBooksFromDatabase.rowCount
+      })
+    })
     .catch(handleError);
 }
-
 
 // Sends user's query to Google API for search results
 function queryGoogleAPI(request, response) {
