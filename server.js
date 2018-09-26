@@ -57,7 +57,7 @@ function Book(book) {
 
 const handleError = (error, response) => {
   console.log(error);
-  if (response) return response.status(500).send('Sorry, something has gone horribly wrong.');
+  response.render('pages/error');
 }
 
 
