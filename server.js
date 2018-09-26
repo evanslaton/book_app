@@ -40,20 +40,20 @@ function queryGoogleAPI(request, response) {
   searchBy === 'title' ? url += `+intitle:${searchFor}` : url += `inauthor:${searchFor}`;
 
   superagent.get(url)
-    .then(googleResults => googleResults.body.items.map(book => new Book(book)))
+    .then(googleResults => googleResults.body.items.map(book => new Book(book.volumeInfo)))
     .then(bookListOnServer => response.render('pages/search-results', {bookListVarialbeNameOnEJS: bookListOnServer}))
     .catch(error => handleError(error, response));
 }
 
 function Book(book) {
   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
-  this.title = book.volumeInfo.title || 'Title not available';
-  this.author = book.volumeInfo.authors.reduce((accumulator, currentValue) => accumulator + `, ${currentValue}`) || 'Author not available';
-  this.isbn = book.volumeInfo.industryIdentifiers[0].type || 'ISBN not available';
-  this.image_url = book.volumeInfo.imageLinks.smallThumbnail || placeholderImage;
-  console.log(book.volumeInfo.imageLinks);
-  this.description = book.volumeInfo.description || 'No description';
-  this.category = book.volumeInfo.categories[0] || 'No category';
+  this.title = book.title || 'Title not available';
+  this.author = book.authors.reduce((accumulator, currentValue) => accumulator + `, ${currentValue}`) || 'Author not available';
+  this.isbn = book.industryIdentifiers[0].type || 'ISBN not available';
+  this.image_url = book.imageLinks.smallThumbnail || placeholderImage;
+  console.log(book.imageLinks);
+  this.description = book.description || 'No description';
+  this.category = book.categories[0] || 'No category';
 }
 
 const handleError = (error, response) => {
