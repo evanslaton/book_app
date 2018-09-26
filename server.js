@@ -38,7 +38,7 @@ function queryGoogleAPI(request, response) {
   const searchBy = request.body.search[1];
 
   searchBy === 'title' ? url += `+intitle:${searchFor}` : url += `inauthor:${searchFor}`;
-
+  console.log('url', url);
   superagent.get(url)
     .then(googleResults => googleResults.body.items.map(book => new Book(book.volumeInfo)))
     .then(bookListOnServer => response.render('pages/search-results', {bookListVarialbeNameOnEJS: bookListOnServer}))
@@ -47,17 +47,16 @@ function queryGoogleAPI(request, response) {
 
 function Book(book) {
   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
-  this.title = book.title || 'Title not available';
+  this.title = book.title ? book.title : 'Title not available';
   this.author = book.authors.reduce((accumulator, currentValue) => accumulator + `, ${currentValue}`) || 'Author not available';
-  this.isbn = book.industryIdentifiers[0].type || 'ISBN not available';
+  this.isbn = book.industryIdentifiers ? book.industryIdentifiers[0].type : 'ISBN not available';
   this.image_url = book.imageLinks ? book.imageLinks.thumbnail : placeholderImage;
-  this.description = book.description || 'No description';
-  this.category = book.categories[0] || 'No category';
+  this.description = book.description ? book.description : 'No description';
 }
 
 const handleError = (error, response) => {
   console.log(error);
-  response.render('pages/error');
+  if (response) return response.status(500).send('Sorry, something has gone horribly wrong.');
 }
 
 
