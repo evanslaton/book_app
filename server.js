@@ -20,6 +20,7 @@ app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
 app.get('/', showSavedBooks);
+app.get('/book-details/:book_id', showBookDetails);
 // app.get('/', bookSearch);
 
 app.post('/search-for-books', queryGoogleAPI);
@@ -49,6 +50,17 @@ function showSavedBooks(request, response) {
     .catch(handleError);
 }
 
+function showBookDetails(request, response) {
+  const SQL = 'SELECT * FROM books WHERE id=$1;';
+  const values = [request.params.book_id];
+  console.log('Show book detail', request.params);
+
+  return client.query(SQL, values)
+    .then(result => response.render('pages/books/show', {bookDetails: result.rows}))
+    .catch(handleError);
+}
+
+
 // Sends user's query to Google API for search results
 function queryGoogleAPI(request, response) {
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
@@ -70,6 +82,7 @@ function Book(book) {
   this.isbn = book.industryIdentifiers ? book.industryIdentifiers[0].type : 'ISBN not available';
   this.image_url = book.imageLinks ? book.imageLinks.thumbnail : placeholderImage;
   this.description = book.description ? book.description : 'No description';
+  this.bookshelf = book.categories ? book.categories[0] : 'Uncategorized';
 }
 
 // Error handling

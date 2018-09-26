@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <main id="show--books-from-database-page">
+  <main id="show-books-from-database-page">
     <h1>Your Books</h1>
     <p>Number of books you have saved <%= numberOfBooksSaved %></p>
 
@@ -24,7 +24,7 @@
           <h2><%= book.title %></h2>
           <h3>by <%= book.author %></h3>
           <p><%= book.description %></p>
-          <a href="#">View Details</a>
+          <a href="/book-details/<%= book.id %>">View Details</a>
         </li>
       <% }) %>
     </ul>
