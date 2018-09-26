@@ -13,23 +13,20 @@
 </head>
 
 <body>
-  <main id="search-page">
-    <h1>Search by Title or Author</h1>
+  <main id="show--books-from-database-page">
+    <h1>Your Books</h1>
 
-    <form action="/search-for-books" method="post">
-      <input type="text" name="search" placeholder="Enter a Title or Author" required="required" />
-      <fieldset>
-        <label>
-          <input type="radio" name="search" value="title" required="required" />
-          <span>Title</span>
-        </label>
-        <label>
-          <input type="radio" name="search" value="author" required="required" />
-          <span>Author</span>
-        </label>
-      </fieldset>
-      <button type="submit">Search Google Books</button>
-    </form>
+    <ul>
+      <% savedBooksFromDatabase.forEach(book => { %>
+        <li id="<%= book.id %>" class="book">
+          <img src=<%= book.image_url %> alt=Cover for <%= book.title %> />
+          <h2><%= book.title %></h2>
+          <h3>by <%= book.author %></h3>
+          <p><%= book.description %></p>
+          <a href="#">View Details</a>
+        </li>
+      <% }) %>
+    </ul>
   </main>
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
