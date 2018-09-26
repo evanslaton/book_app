@@ -3,9 +3,12 @@
 // Application dependencies
 const express = require('express');
 const superagent = require('superagent');
+const pg = require('pg');
 
 // Application setup
 require('dotenv').config();
+const client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -16,7 +19,8 @@ app.use(express.urlencoded({extended: true}));
 // Set view engine for server-side templating
 app.set('view engine', 'ejs');
 
-app.get('/', bookSearch);
+app.get('/', showSavedBooks);
+// app.get('/', bookSearch);
 
 app.post('/search-for-books', queryGoogleAPI);
 
@@ -27,8 +31,22 @@ app.get('*', (request, response) => response.status(404).send('This route does n
 app.listen(PORT, () => console.log(`Listening on port: ${process.env.PORT}`));
 
 // Renders the page where users can search the Google API for books
-function bookSearch(request, response) {
-  response.render('pages/index');
+// function bookSearch(request, response) {
+//   response.render('pages/index');
+// }
+
+// Retrieves saved books from the database
+function showSavedBooks(request, response) {
+  const SQL = `SELECT * FROM books`;
+
+  return client.query(SQL)
+    .then(savedBooksFromDatabase => {
+      response.render('pages/index', {
+        savedBooksFromDatabase: savedBooksFromDatabase.rows,
+        numberOfBooksSaved: savedBooksFromDatabase.rowCount
+      })
+    })
+    .catch(handleError);
 }
 
 // Sends user's query to Google API for search results
@@ -41,7 +59,7 @@ function queryGoogleAPI(request, response) {
 
   superagent.get(url)
     .then(googleResults => googleResults.body.items.map(book => new Book(book.volumeInfo)))
-    .then(bookListOnServer => response.render('pages/search-results', {bookListVarialbeNameOnEJS: bookListOnServer}))
+    .then(bookListOnServer => response.render('pages/searches/new', {bookListVarialbeNameOnEJS: bookListOnServer}))
     .catch(error => handleError(error, response));
 }
 
@@ -54,9 +72,11 @@ function Book(book) {
   this.description = book.description ? book.description : 'No description';
 }
 
+// Error handling
 const handleError = (error, response) => {
   console.log(error);
   response.render('pages/error');
 }
 
+client.on('error', error => console.error(error));
 
