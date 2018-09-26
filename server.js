@@ -50,7 +50,7 @@ function Book(book) {
   this.title = book.volumeInfo.title || 'Title not available';
   this.author = book.volumeInfo.authors.reduce((accumulator, currentValue) => accumulator + `, ${currentValue}`) || 'Author not available';
   this.isbn = book.volumeInfo.industryIdentifiers[0].type || 'ISBN not available';
-  this.image_url = book.volumeInfo.imageLinks.smallThumbnail || placeholderImage;
+  // this.image_url = book.volumeInfo.imageLinks.smallThumbnail || placeholderImage;
   console.log(book.volumeInfo.imageLinks);
   this.description = book.volumeInfo.description || 'No description';
   this.category = book.volumeInfo.categories[0] || 'No category';
