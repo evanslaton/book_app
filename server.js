@@ -38,7 +38,7 @@ function queryGoogleAPI(request, response) {
   const searchBy = request.body.search[1];
 
   searchBy === 'title' ? url += `+intitle:${searchFor}` : url += `inauthor:${searchFor}`;
-  console.log('url', url);
+
   superagent.get(url)
     .then(googleResults => googleResults.body.items.map(book => new Book(book.volumeInfo)))
     .then(bookListOnServer => response.render('pages/search-results', {bookListVarialbeNameOnEJS: bookListOnServer}))
@@ -56,7 +56,7 @@ function Book(book) {
 
 const handleError = (error, response) => {
   console.log(error);
-  if (response) return response.status(500).send('Sorry, something has gone horribly wrong.');
+  response.render('pages/error');
 }
 
 
