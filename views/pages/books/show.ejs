@@ -1,21 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <%- include('../../layout/head') %>
+<%- include('../../layout/head') %>
 
 <body>
   <%- include('../../layout/header') %>
 
   <main id="show-book-details">
-    <ul>
+    <ul class="show-add-form">
       <li>
         <%- include('detail', {book: bookDetails}) %>
         <a href="/">Return Home</a>
+        <button type="button">Update Details</button>
+
+        <form action="/add-book-to-database" method="post" class="hidden">
+          <input type="text" name="title" value="<%= bookDetails.title %>" />
+          <input type="text" name="author" value="<%= bookDetails.author %>" />
+          <input type="text" name="isbn" value="<%= bookDetails.isbn %>" />
+          <input type="text" name="image_url" value="<%= bookDetails.image_url %>" />
+          <input type="textarea" name="description" value="<%= bookDetails.description %>" />
+          <select name="bookshelf">
+            <option value="<%= bookDetails.bookshelf %>"><%= bookDetails.bookshelf %> </option>
+            <% shelfList.forEach((shelf) => { %>
+            <option value="<%= shelf.bookshelf %>"><%= shelf.bookshelf %></option>
+            <% }) %>
+          </select>
+          <button type="button">Hide Form</button>
+          <button type="submit">Submit Updates</button>
+        </form>
       </li>
     </ul>
   </main>
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+  <script src="/js/app.js"></script>
 </body>
 
 </html>

@@ -45,13 +45,20 @@ function showSavedBooks(request, response) {
 
 // Shows the selected book's details
 function showBookDetails(request, response) {
-  const SQL = 'SELECT * FROM books WHERE id=$1;';
-  const values = [request.params.book_id];
-  console.log('Show book detail', request.params);
-
-  return client.query(SQL, values)
-    .then(result => response.render('pages/books/show', { bookDetails: result.rows[0] }))
+  getBookshelves()
+    .then(bookshelves => {
+      const SQL = 'SELECT * FROM books WHERE id=$1;';
+      const values = [request.params.book_id];
+      console.log('Show book detail', bookshelves.rows);
+      return client.query(SQL, values)
+        .then(result => response.render('pages/books/show', { bookDetails: result.rows[0], shelfList: bookshelves.rows }))
+    })
     .catch(handleError);
+}
+
+function getBookshelves() {
+  const SQL = 'SELECT bookshelf FROM books;';
+  return client.query(SQL);
 }
 
 // Renders the page where users can search the Google API for books
