@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>Book App with David and Evan</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="styles/reset.css" type="text/css" rel="stylesheet" />
-  <link href="styles/base.css" type="text/css" rel="stylesheet" />
-  <link href="styles/layout.css" type="text/css" rel="stylesheet" />
-  <link href="styles/modules.css" type="text/css" rel="stylesheet" />
-  <link href="styles/icons.css" type="text/css" rel="stylesheet" />
-</head>
+  <%- include('../../layout/head') %>
 
 <body>
+  <%- include('../../layout/header') %>
   <h1>Search Results</h1>
   
   <ul>
@@ -24,7 +15,6 @@
         <h3>by <%= book.author %></h3>
         <p><%= book.description %></p>
         <button type="submit">Select this Book</button>
-
       </li>
     <% }) %>
   </ul>

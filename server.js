@@ -15,14 +15,11 @@ const PORT = process.env.PORT || 3000;
 // Application middleware
 app.use(express.static('./public'));
 app.use(express.urlencoded({extended: true}));
-
-// Set view engine for server-side templating
 app.set('view engine', 'ejs');
 
 app.get('/', showSavedBooks);
 app.get('/book-details/:book_id', showBookDetails);
-// app.get('/', bookSearch);
-
+app.get('/new-book-search', bookSearch);
 app.post('/search-for-books', queryGoogleAPI);
 
 // Error handling
@@ -30,11 +27,6 @@ app.get('*', (request, response) => response.status(404).send('This route does n
 
 // listening
 app.listen(PORT, () => console.log(`Listening on port: ${process.env.PORT}`));
-
-// Renders the page where users can search the Google API for books
-// function bookSearch(request, response) {
-//   response.render('pages/index');
-// }
 
 // Retrieves saved books from the database
 function showSavedBooks(request, response) {
@@ -50,6 +42,7 @@ function showSavedBooks(request, response) {
     .catch(handleError);
 }
 
+// Shows the selected book's details
 function showBookDetails(request, response) {
   const SQL = 'SELECT * FROM books WHERE id=$1;';
   const values = [request.params.book_id];
@@ -60,6 +53,10 @@ function showBookDetails(request, response) {
     .catch(handleError);
 }
 
+// Renders the page where users can search the Google API for books
+function bookSearch(request, response) {
+  response.render('pages/searches/new');
+}
 
 // Sends user's query to Google API for search results
 function queryGoogleAPI(request, response) {
@@ -71,10 +68,11 @@ function queryGoogleAPI(request, response) {
 
   superagent.get(url)
     .then(googleResults => googleResults.body.items.map(book => new Book(book.volumeInfo)))
-    .then(bookListOnServer => response.render('pages/searches/new', {bookListVarialbeNameOnEJS: bookListOnServer}))
+    .then(bookListOnServer => response.render('pages/searches/search-results', {bookListVarialbeNameOnEJS: bookListOnServer}))
     .catch(error => handleError(error, response));
 }
 
+// Book constructor function
 function Book(book) {
   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
   this.title = book.title ? book.title : 'Title not available';
