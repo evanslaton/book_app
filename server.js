@@ -14,13 +14,14 @@ const PORT = process.env.PORT || 3000;
 
 // Application middleware
 app.use(express.static('./public'));
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 app.get('/', showSavedBooks);
 app.get('/book-details/:book_id', showBookDetails);
 app.get('/new-book-search', bookSearch);
 app.post('/search-for-books', queryGoogleAPI);
+app.post('/add-book-to-database', addBook);
 
 // Error handling
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
@@ -49,7 +50,7 @@ function showBookDetails(request, response) {
   console.log('Show book detail', request.params);
 
   return client.query(SQL, values)
-    .then(result => response.render('pages/books/show', {bookDetails: result.rows[0]}))
+    .then(result => response.render('pages/books/show', { bookDetails: result.rows[0] }))
     .catch(handleError);
 }
 
@@ -68,7 +69,7 @@ function queryGoogleAPI(request, response) {
 
   superagent.get(url)
     .then(googleResults => googleResults.body.items.map(book => new Book(book.volumeInfo)))
-    .then(bookListOnServer => response.render('pages/searches/search-results', {bookListVarialbeNameOnEJS: bookListOnServer}))
+    .then(bookListOnServer => response.render('pages/searches/search-results', { bookListVarialbeNameOnEJS: bookListOnServer }))
     .catch(error => handleError(error, response));
 }
 
@@ -82,6 +83,21 @@ function Book(book) {
   this.description = book.description ? book.description : 'No description';
   this.bookshelf = book.categories ? book.categories[0] : 'Uncategorized';
 }
+
+// Destructure and add a book to the database
+function addBook(request, response) {
+  console.log(request.body);
+  let { title, author, isbn, image_url, description, bookshelf } = request.body;
+
+  let SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6);';
+  let values = [title, author, isbn, image_url, description, bookshelf];
+  console.log(SQL, values);
+
+  return client.query(SQL, values)
+    .then(response.redirect('/'))
+    .catch(error => handleError(error, response));
+}
+
 
 // Error handling
 const handleError = (error, response) => {
