@@ -56,7 +56,7 @@ function showBookDetails(request, response) {
   console.log('Show book detail', request.params);
 
   return client.query(SQL, values)
-    .then(result => response.render('pages/books/show', {bookDetails: result.rows}))
+    .then(result => response.render('pages/books/show', {bookDetails: result.rows[0]}))
     .catch(handleError);
 }
 
