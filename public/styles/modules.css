@@ -21,6 +21,9 @@ main#search-page button {
     color: wheat;
 }
 
+.hidden {
+    display: none;
+}
     
 /* Tablet View Render */
     
