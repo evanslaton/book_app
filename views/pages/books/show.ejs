@@ -12,7 +12,8 @@
         <a href="/">Return Home</a>
         <button type="button">Update Details</button>
 
-        <form action="/add-book-to-database" method="post" class="hidden">
+        <form action="/update-book-in-database/<%= bookDetails.id %>" method="post" class="hidden">
+          <input type="hidden" name="_method" value="PUT">
           <input type="text" name="title" value="<%= bookDetails.title %>" />
           <input type="text" name="author" value="<%= bookDetails.author %>" />
           <input type="text" name="isbn" value="<%= bookDetails.isbn %>" />
