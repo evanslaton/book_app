@@ -18,11 +18,11 @@
 
           <form action="/add-book-to-database" method="post" class="hidden">
             <input type="text" name="title" value="<%= book.title %>" />
-            <input type="text" name="author" placeholder="<%= book.author %>" />
-            <input type="text" name="isbn" placeholder="<%= book.isbn %>" />
-            <input type="text" name="image_url" placeholder="<%= book.image_url %>" />
-            <input type="textarea" name="description" placeholder="<%= book.description %>" />
-            <input type="text" name="bookshelf" placeholder="<%= book.bookshelf %>" />
+            <input type="text" name="author" value="<%= book.author %>" />
+            <input type="text" name="isbn" value="<%= book.isbn %>" />
+            <input type="text" name="image_url" value="<%= book.image_url %>" />
+            <input type="textarea" name="description" value="<%= book.description %>" />
+            <input type="text" name="bookshelf" value="<%= book.bookshelf %>" />
             <button type="button">Hide Form</button>
             <button type="submit">Add to Database</button>
           </form>
