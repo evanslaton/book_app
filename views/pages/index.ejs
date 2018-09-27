@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>Book App with David and Evan</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="styles/reset.css" type="text/css" rel="stylesheet" />
-  <link href="styles/base.css" type="text/css" rel="stylesheet" />
-  <link href="styles/layout.css" type="text/css" rel="stylesheet" />
-  <link href="styles/modules.css" type="text/css" rel="stylesheet" />
-  <link href="styles/icons.css" type="text/css" rel="stylesheet" />
-</head>
+    <%- include('../layout/head') %>
 
 <body>
   <main id="show-books-from-database-page">
@@ -20,10 +10,7 @@
     <ul>
       <% savedBooksFromDatabase.forEach(book => { %>
         <li id="<%= book.id %>" class="book">
-          <img src=<%= book.image_url %> alt=Cover for <%= book.title %> />
-          <h2><%= book.title %></h2>
-          <h3>by <%= book.author %></h3>
-          <p><%= book.description %></p>
+          <%- include('books/detail', {book: book}) %>
           <a href="/book-details/<%= book.id %>">View Details</a>
         </li>
       <% }) %>
