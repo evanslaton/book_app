@@ -2,7 +2,6 @@
 
 // Reveals the form when the user wants to add a book to the database
 function revealForm(event) {
-  event.preventDefault();
   const clickedOn = event.target;
   if (event.target.textContent === 'Select this Book') {
     $(clickedOn).parent().find('form').removeClass('hidden');
