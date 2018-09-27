@@ -3,7 +3,7 @@
 // Reveals the form when the user wants to add a book to the database
 function revealForm(event) {
   const clickedOn = event.target;
-  if (event.target.textContent === 'Select this Book') {
+  if (event.target.textContent === 'Select this Book' || 'Update Details') {
     $(clickedOn).parent().find('form').removeClass('hidden');
   }
 }
@@ -20,4 +20,3 @@ $('.show-add-form').on('click', (event) => {
   revealForm(event);
   hideForm(event);
 });
-
