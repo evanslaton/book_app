@@ -77,7 +77,7 @@ function Book(book) {
   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
   this.title = book.title ? book.title : 'Title not available';
   this.author = book.authors.reduce((accumulator, currentValue) => accumulator + `, ${currentValue}`) || 'Author not available';
-  this.isbn = book.industryIdentifiers ? book.industryIdentifiers[0].type : 'ISBN not available';
+  this.isbn = book.industryIdentifiers ? book.industryIdentifiers[0].identifier : 'ISBN not available';
   this.image_url = book.imageLinks ? book.imageLinks.thumbnail : placeholderImage;
   this.description = book.description ? book.description : 'No description';
   this.bookshelf = book.categories ? book.categories[0] : 'Uncategorized';
