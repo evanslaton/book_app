@@ -84,20 +84,26 @@ function Book(book) {
   this.bookshelf = book.categories ? book.categories[0] : 'Uncategorized';
 }
 
-// Destructure and add a book to the database
+// Destructures, adds a book to the database and then redirects to the details view of the newly added book
 function addBook(request, response) {
   console.log(request.body);
   let { title, author, isbn, image_url, description, bookshelf } = request.body;
 
-  let SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6);';
-  let values = [title, author, isbn, image_url, description, bookshelf];
-  console.log(SQL, values);
+  const SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6);';
+  const values = [title, author, isbn, image_url, description, bookshelf];
 
   return client.query(SQL, values)
-    .then(response.redirect('/'))
+    .then(() => {
+      const SQL = 'SELECT id FROM books WHERE isbn=$1;'
+      const values = [request.body.isbn];
+      return client.query(SQL, values)
+        .then(result => {
+          response.redirect(`/book-details/${result.rows[0].id}`)
+        })
+        .catch(error => handleError(error, response));
+    })
     .catch(error => handleError(error, response));
 }
-
 
 // Error handling
 const handleError = (error, response) => {
