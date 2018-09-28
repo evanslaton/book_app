@@ -9,7 +9,10 @@
     <ul class="show-add-form">
       <li>
         <%- include('detail', {book: bookDetails}) %>
-        <a href="/">Return Home</a>
+        <form action="/delete-book/<%= bookDetails.id %>" method="post">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit">Delete Book</button>
+        </form>
         <button type="button">Update Details</button>
 
         <form action="/update-book-in-database/<%= bookDetails.id %>" method="post" class="hidden">

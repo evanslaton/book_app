@@ -33,12 +33,12 @@ app.get('/book-details/:book_id', showBookDetails);
 app.get('/new-book-search', bookSearch);
 app.post('/search-for-books', queryGoogleAPI);
 app.post('/add-book-to-database', addBook);
+
 app.put('/update-book-in-database/:book_id', updateBook);
 
-// Error handling
-app.get('*', (request, response) => response.status(404).send('This route does not exist'));
+app.delete('/delete-book/:book_id', deleteBook);
 
-// listening
+// Proof of life
 app.listen(PORT, () => console.log(`Listening on port: ${process.env.PORT}`));
 
 // Retrieves saved books from the database
@@ -61,13 +61,13 @@ function showBookDetails(request, response) {
     .then(bookshelves => {
       const SQL = 'SELECT * FROM books WHERE id=$1;';
       const values = [request.params.book_id];
-      console.log('Show book detail', bookshelves.rows);
       return client.query(SQL, values)
         .then(result => response.render('pages/books/show', { bookDetails: result.rows[0], shelfList: bookshelves.rows }))
     })
     .catch(handleError);
 }
 
+// Retrieves a list of book shelves to populate the select element in the update book form
 function getBookshelves() {
   const SQL = 'SELECT DISTINCT bookshelf FROM books;';
   return client.query(SQL);
@@ -105,7 +105,6 @@ function Book(book) {
 
 // Destructures, adds a book to the database and then redirects to the details view of the newly added book
 function addBook(request, response) {
-  console.log(request.body);
   let { title, author, isbn, image_url, description, bookshelf } = request.body;
 
   const SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6);';
@@ -124,8 +123,8 @@ function addBook(request, response) {
     .catch(error => handleError(error, response));
 }
 
+// Updates the book with the user's input
 function updateBook(request, response) {
-  console.log(request.body);
   let { title, author, isbn, image_url, description, bookshelf } = request.body;
   const SQL = 'UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7;';
   const values = [title, author, isbn, image_url, description, bookshelf, request.params.book_id];
@@ -134,7 +133,18 @@ function updateBook(request, response) {
     .catch(error => handleError(error, response));
 }
 
-// Error handling
+// Deletes a book from the database
+function deleteBook(request, response) {
+  const SQL = 'DELETE FROM books WHERE id=$1;';
+  const value = [request.params.book_id];
+  client.query(SQL, value)
+    .then(response.redirect('/'))
+    .catch(error => handleError(error, response));
+}
+
+// Error handling functions
+app.get('*', (request, response) => response.status(404).send('This route does not exist'));
+
 const handleError = (error, response) => {
   console.log(error);
   response.render('pages/error');
