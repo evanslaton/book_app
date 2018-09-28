@@ -15,6 +15,9 @@ Architecture TBD
 ## Change Log
 9-25-2018 9:15am - Repo created and scaffolding set up.
 9-25-2018 1:50pm - Mostly finished with lab 11, still need to add some CSS styles.
+9-26-2018 8:00pm - Almost finished with lab 12.
+9-27-2018 10:20am - Finished with lab 12.
+9-28-2018 10:20am - Added update/delete book functionality.
 
 ## Credits and Collaborations
 Coded by Dave Muench and Evan Slaton with support from Allie Grampa, Sam Hamm, Jennifer Piper and Koko Kassa
