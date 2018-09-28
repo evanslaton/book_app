@@ -1,4 +1,36 @@
-/* Mobile View Render */
+header {
+    overflow: auto;
+    padding: 1em 0 0;
+    background-color: black;
+    color: white;
+    margin-bottom: 1em;
+}
+
+header a {
+    color: white;
+}
+
+header p {
+    float: left;
+    padding: 0;
+    margin-left: 1em;
+}
+
+header ul {
+    float: right;
+}
+
+header li {
+    border: none;
+    margin: 0;
+    padding: 0;
+    float: right;
+    margin-right: 1em;
+}
+
+h1 {
+    font-family: 'Notable', sans-serif;
+}
 
 main#search-page input[type="text"] {
     font-size: 1.5em;
@@ -12,26 +44,35 @@ main#search-page label {
 }
 
 main#search-page span {
-    margin-left: .5em;  
+    margin-left: .5em; 
+    float: left;
 }
 
-main#search-page button {
-    font-size: 1.5em;
-    background: purple;
-    color: wheat;
+main#search-page input[type="radio"] {
+    width: auto;
+    float: left;
+    margin-left: 3em
 }
 
 .hidden {
     display: none;
 }
-    
-/* Tablet View Render */
-    
-@media only screen and (min-width: 481px) and (max-width: 960px) {
-    
+
+li {
+    padding: 1em 3em;
+    padding-bottom: 5em;
+    border: 1px solid black;
+    border-radius: 5px;
 }
-    
-/* Desktop View Render */
-@media only screen and (min-width: 961px) {
-    
+
+img, h2, h3, p {
+    margin-bottom: 1em;
+}
+
+button:hover {
+    box-shadow: 2px 2px 3px black;
+}
+
+button:active {
+    box-shadow: 1px 1px 3px black;
 }
